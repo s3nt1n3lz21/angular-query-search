@@ -17,7 +17,7 @@ export class SearchQueryBuilderComponent {
 
   searchQuery = '';
   queries: string[] = [];
-  
+
   currentField = '';
   currentCondition = '';
   currentValue = '';
@@ -71,7 +71,12 @@ export class SearchQueryBuilderComponent {
 
 
 // Possible Further Improvements
-// Add validation to the form and queries, e.g. that queries are complete.
+// Get the list of fields, and type of condition for each field. E.g. Text, Categorical from an API
+// Get the possible choice of options for categorical fields from the API aswell
+// Admins could then define new fields and condition types etc on the backend
+// Add validation to the form and queries, e.g. that queries are complete. and show error messages
 // Allow the user to enter AND or OR queries, e.g. another field allowing them to select AND or OR.
 // Use a datepicker component for date fields
+// Use parenthesis for nested queries. e.g. x AND (a OR b)
+// Drag and drop query order
 // Use an API Service with API Cache
