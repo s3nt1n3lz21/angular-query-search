@@ -1,14 +1,17 @@
 <div class="query-builder">
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Search Query</mat-label>
-      <mat-chip-list #chipList>
-        <mat-chip *ngFor="let query of queries; let i = index" (removed)="removeQuery(i)">
-          {{ query }}
-          <button matChipRemove>✕</button>
-        </mat-chip>
-      </mat-chip-list>
-      <input matInput [matChipInputFor]="chipList" readonly [value]="">
-    </mat-form-field>
+        <mat-label>Search Query</mat-label>
+        <mat-chip-list #chipList>
+          <ng-container *ngFor="let query of queries; let i = index">
+            <mat-chip (removed)="removeQuery(i)">
+              {{ query }}
+              <button matChipRemove>✕</button>
+            </mat-chip>
+            <span *ngIf="i < queries.length - 1" class="and-separator">AND</span>
+          </ng-container>
+        </mat-chip-list>
+        <input matInput [matChipInputFor]="chipList" readonly [value]="">
+      </mat-form-field>
     
     <div class="controls">
       <mat-form-field appearance="fill">

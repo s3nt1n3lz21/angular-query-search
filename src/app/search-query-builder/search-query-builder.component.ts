@@ -79,4 +79,5 @@ export class SearchQueryBuilderComponent {
 // Use a datepicker component for date fields
 // Use parenthesis for nested queries. e.g. x AND (a OR b)
 // Drag and drop query order
+// Perhaps change the API call to use query parameters instead of passing the query string through the body
 // Use an API Service with API Cache
