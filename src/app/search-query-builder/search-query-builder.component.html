@@ -1,0 +1,35 @@
+<div class="query-builder">
+    <div class="query-field" *ngFor="let query of queries; let i = index">
+      <mat-form-field appearance="fill">
+        <mat-label>Field</mat-label>
+        <input matInput [matAutocomplete]="autoField" [(ngModel)]="query.field" (ngModelChange)="onFieldChange(i)">
+        <mat-autocomplete #autoField="matAutocomplete">
+          <mat-option *ngFor="let field of fields" [value]="field">{{ field }}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Condition</mat-label>
+        <input matInput [matAutocomplete]="autoCondition" [(ngModel)]="query.condition" (ngModelChange)="onConditionChange(i)">
+        <mat-autocomplete #autoCondition="matAutocomplete">
+          <mat-option *ngFor="let condition of getConditions(query.field)" [value]="condition">{{ condition }}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Value</mat-label>
+        <input matInput type="text" [(ngModel)]="query.value">
+      </mat-form-field>
+      
+      <button mat-button color="primary" (click)="addQuery()">Add Query</button>
+      <button mat-button color="warn" (click)="removeQuery(i)">Remove</button>
+    </div>
+    
+    <div>
+      <button mat-raised-button color="accent" (click)="submitQuery()">Submit</button>
+    </div>
+    <div class="query-display">
+      {{ buildQuery() }}
+    </div>
+  </div>
+  
