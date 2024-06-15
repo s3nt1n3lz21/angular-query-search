@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-search-query-builder',
@@ -14,19 +14,15 @@ export class SearchQueryBuilderComponent {
     date: ['=', '>', '<'],
     number: ['=', '>', '<']
   };
-  queries = [
-    { field: '', condition: '', value: '' }
-  ];
+
+  searchQuery = '';
+  queries: string[] = [];
+  
+  currentField = '';
+  currentCondition = '';
+  currentValue = '';
 
   constructor(private http: HttpClient) {}
-
-  addQuery() {
-    this.queries.push({ field: '', condition: '', value: '' });
-  }
-
-  removeQuery(index: number) {
-    this.queries.splice(index, 1);
-  }
 
   getConditions(field: string) {
     if (['Title', 'Assignee', 'Creator', 'Project'].includes(field)) {
@@ -41,35 +37,41 @@ export class SearchQueryBuilderComponent {
     return [];
   }
 
-  onFieldChange(index: number) {
-    // Reset condition and value when the field changes
-    this.queries[index].condition = '';
-    this.queries[index].value = '';
+  addQuery() {
+    if (this.currentField && this.currentCondition && this.currentValue) {
+      const query = `${this.currentField} ${this.currentCondition} ${this.currentValue}`;
+      this.queries.push(query);
+      this.updateSearchQuery();
+      this.resetCurrentInputs();
+    }
   }
 
-  onConditionChange(index: number) {
-    // Reset value when the condition changes
-    this.queries[index].value = '';
+  removeQuery(index: number) {
+    this.queries.splice(index, 1);
+    this.updateSearchQuery();
   }
 
-  buildQuery() {
-    return this.queries.map(query => {
-      if (query.field && query.condition && query.value) {
-        return `${query.field} ${query.condition} ${query.value}`;
-      }
-      return '';
-    }).join(' AND ');
+  updateSearchQuery() {
+    this.searchQuery = this.queries.join(' AND ');
+  }
+
+  resetCurrentInputs() {
+    this.currentField = '';
+    this.currentCondition = '';
+    this.currentValue = '';
   }
 
   submitQuery() {
-    const queryStr = this.buildQuery();
-    this.http.post('your-api-endpoint', { query: queryStr }).subscribe(response => {
+    const queryStr = this.searchQuery;
+    this.http.post('api-endpoint', { query: queryStr }).subscribe(response => {
       console.log(response);
     });
-}
+  }
 }
 
+
 // Possible Further Improvements
-// Add validation to the form and queries
+// Add validation to the form and queries, e.g. that queries are complete.
+// Allow the user to enter AND or OR queries, e.g. another field allowing them to select AND or OR.
 // Use a datepicker component for date fields
 // Use an API Service with API Cache
